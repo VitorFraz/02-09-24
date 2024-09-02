@@ -1,0 +1,154 @@
+<script>
+
+  function portaMisteriosa() {
+      alert('Você entrou em uma sala.');
+
+      console.log('Você encontrou um baú misterioso e nele havia 3 itens: uma espada longa e dourada, uma armadura linda e reluzente como as estrelas, e um cogumelo misterioso vermelho com bolinhas brancas.');
+      let escolhaItem = prompt('Qual o primeiro item que você gostaria de pegar? \n1 - Espada longa e dourada \n2 - Armadura linda e reluzente como as estrelas \n3 - Cogumelo misterioso vermelho com bolinhas brancas');
+      while (escolhaItem < 1 || escolhaItem > 3) {
+          escolhaItem = prompt('Resposta não válida: \n1 - Espada longa e dourada \n2 - Armadura linda e reluzente como as estrelas \n3 - Cogumelo misterioso vermelho com bolinhas brancas, qual você escolhe?');
+      }
+      console.log('Ao escolher o item, o baú se fechou e você não conseguiu mais abrir ele para pegar o restante dos itens');
+      return escolhaItem;
+  }
+  
+  function corredorEscuro() {
+      alert('Você entrou no corredor escuro.');
+      console.log('Você está caminhando pelo corredor escuro, devagar e reto até enfrentar um goblin no fim do corredor. O goblin está vindo em sua direção.');
+      let escolhaAtaqueEDefesa = prompt('Com o goblin vindo, você escolhe: \n1 - Atacar \n2 - Defender');
+      while (escolhaAtaqueEDefesa < 1 || escolhaAtaqueEDefesa > 2) {
+          escolhaAtaqueEDefesa = prompt('Resposta não válida: \n1 - Atacar \n2 - Defender');
+      }
+      return escolhaAtaqueEDefesa;
+  }
+  
+  function combate(ataque, defesa, vida, inimigoAtaque, inimigoDefesa, inimigoVida) {
+      let turno = 1;
+      while (vida > 0 && inimigoVida > 0) {
+          if (turno % 2 === 1) {
+              let escolhaAtaqueEDefesa = prompt('Seu turno. Escolha: \n1 - Atacar \n2 - Defender');
+              if (escolhaAtaqueEDefesa == '1') {
+                  let dano = Math.max(0, ataque - inimigoDefesa);
+                  inimigoVida -= dano;
+                  alert(`Você atacou o inimigo e causou ${dano} de dano. Vida do inimigo: ${inimigoVida}`);
+              } else if (escolhaAtaqueEDefesa == '2') {
+                  defesa *= 2;
+                  alert('Você se preparou para se defender.');
+              }
+          } else {
+              if (defesa > inimigoAtaque) {
+                  alert('Você se defendeu do ataque do inimigo!');
+              } else {
+                  let dano = Math.max(0, inimigoAtaque - defesa);
+                  vida -= dano;
+                  alert(`O inimigo atacou e causou ${dano} de dano. Sua vida: ${vida}`);
+              }
+              defesa /= 2;
+          }
+          turno++;
+      }
+
+      if (vida <= 0) {
+          alert('Você foi derrotado pelo inimigo.');
+      } else {
+          alert('Você derrotou o inimigo!');
+      }
+
+      return { vida: vida };
+  }
+
+  function combateEspíritoDeFogo(ataque, defesa, vida) {
+      let inimigoAtaque = 15;
+      let inimigoDefesa = 7;
+      let inimigoVida = 35;
+
+      let resultado = combate(ataque, defesa, vida);
+      vida = resultado.vida;
+
+      if (vida > 0) {
+          return true;
+      } else {
+          return false;
+      }
+  }
+
+  function charada() {
+      console.log('Após vencer o espirito de fogo você decide seguir em frente e se depara com uma outra porta que leva você para a próxima sala, uma pequena sala com uma parede que por baixo dela estava emitindo-se uma luz e logo ao lado um suporte de pódio, com uma nota escrita a seguinte frase: ');
+
+      let respostaCorreta = "promessa";
+      let tentativa;
+
+      do {
+          tentativa = prompt('O que é algo que você pode quebrar sem poder tocá-lo?');
+          if (tentativa.toLowerCase() === respostaCorreta) {
+              alert('Parabéns, você acertou!');
+              console.log('A parede se abre. Revelando o outro lado da sala e novamente o suporte possuía a nota, entretanto com uma outra charada escrita o seguinte: ');
+              
+              let respostaCorreta2 = "fogo";
+              let tentativa2;
+              do {
+                  tentativa2 = prompt('Eu não sou vivo, mas eu cresço; eu não tenho pulmões, mas eu preciso de ar; eu não tenho boca, mas a água me mata. O que sou eu?');
+                  if (tentativa2.toLowerCase() === respostaCorreta2) {
+                      alert('Muito bem! as parede novamente se abrem e você poderá avançar para a proxima sala');
+                      return true;
+                  } else {
+                      alert('FWOOSH!');
+                      alert('Oh não, você respondeu errado e uma criatura saiu de uma escotilha do teto, é um espírito de 🔥FOGO🔥.');
+                      return false;
+                  }
+              } while (tentativa2.toLowerCase() !== respostaCorreta2);
+          } else {
+              alert('Nada aconteceu, talvez essa não seja a resposta certa.');
+          }
+      } while (tentativa.toLowerCase() !== respostaCorreta);
+  }
+
+  let nome = '';
+  let ataque = 15;
+  let defesa = 10;
+  let vida = 30;
+
+  nome = prompt('Olá jovem aventureiro, me diga qual o seu nome?');
+  alert(nome + ' Seja bem-vindo à caverna do Dragão');
+  
+  console.log('Você caiu em um buraco e, ao se levantar, se deparou com a seguinte escolha: ao seu lado esquerdo você nota uma porta grande com madeira avermelhada e com o aspecto de velha, caindo aos pedaços, e do lado direito você nota um corredor longo e escuro sem conseguir ver o final');
+  
+  let escolha = prompt('Qual vai ser a sua decisão? \n1 - Você escolhe seguir à esquerda (porta misteriosa) \n2 - Você escolhe seguir à direita (corredor escuro)');
+  
+  if (escolha == '1') {
+      let item = portaMisteriosa();
+      if (item == '1') {
+          ataque += 10;
+          alert('Ao segurar a espada, você sente uma força de vontade percorrendo por seu corpo com a sabedoria e destreza do rei antigo.');
+      } else if (item == '2') {
+          defesa += 15;
+          alert('Ao vestir a armadura, você se sente mais seguro e confiante.');
+      } else if (item == '3') {
+          vida += 30;
+          alert('Ao consumir o cogumelo, você sente como se tivesse duplicado de tamanho.');
+      }
+      alert('Você sente sua força aumentando \n\nAtaque: ' + ataque + '\nDefesa: ' + defesa + '\nVida: ' + vida );
+  } if (escolha == '1') {
+      let escolhaAtaqueEDefesa = corredorEscuro();
+     
+      let inimigoAtaque = 12;
+      let inimigoDefesa = 5;
+      let inimigoVida = 20;
+
+      let resultado = combate(ataque, defesa, vida, inimigoAtaque, inimigoDefesa, inimigoVida);
+      vida = resultado.vida;
+
+      if (vida > 0) {
+          let respostaCharada = charada();
+          if (!respostaCharada) {
+              let vitóriaEspírito = combateEspíritoDeFogo(ataque, defesa, vida);
+              if (vitóriaEspírito) {
+                  charada();
+              } else {
+                  alert('Fim de jogo');
+              }
+          }
+      }
+  }
+
+</script>
